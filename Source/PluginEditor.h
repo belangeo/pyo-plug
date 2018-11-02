@@ -21,16 +21,15 @@ public:
 
     void readFile(const File& fileToRead);
 
-    TextButton computeButton;
-
 private:
     PyoPluginAudioProcessor& processor;
 
     PyoPythonTokeniser tokeniser;
 
+    TextButton computeButton;
+
     CodeDocument codeDocument;
     std::unique_ptr<CodeEditorComponent> editor;
-
     std::unique_ptr<FilenameComponent> fileComp;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PyoPluginAudioProcessorEditor)
