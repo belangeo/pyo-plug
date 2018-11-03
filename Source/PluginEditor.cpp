@@ -19,16 +19,23 @@ const char *initialDSP =
 PyoPluginAudioProcessorEditor::PyoPluginAudioProcessorEditor (PyoPluginAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p) 
 {
-    fileComp.reset(new FilenameComponent("fileComp",
-                                         File("~"),                // current file
-                                         false,                    // can edit file name,
-                                         false,                    // is directory,
-                                         false,                    // is for saving,
-                                         {},                       // browser wildcard suffix,
-                                         {},                       // enforced suffix,
-                                         "Select file to open"));  // text when nothing selected
-    fileComp->addListener(this);
-    addAndMakeVisible(fileComp.get());
+    currentFile = String();
+
+    newButton.setButtonText("New");
+    newButton.addListener(this);
+    addAndMakeVisible(&newButton);
+
+    openButton.setButtonText("Open");
+    openButton.addListener(this);
+    addAndMakeVisible(&openButton);
+
+    saveButton.setButtonText("Save");
+    saveButton.addListener(this);
+    addAndMakeVisible(&saveButton);
+
+    saveAsButton.setButtonText("Save as");
+    saveAsButton.addListener(this);
+    addAndMakeVisible(&saveAsButton);
 
     computeButton.setButtonText("compute");
     computeButton.addListener(this);
@@ -56,8 +63,12 @@ void PyoPluginAudioProcessorEditor::paint(Graphics& g) {
 }
 
 void PyoPluginAudioProcessorEditor::resized() {
-    fileComp->setBounds(8, 2, (getWidth()-16)/2, 24);
-    computeButton.setBounds((getWidth()-16)/2+8, 2, (getWidth()-16)/2, 24);
+    int width = (getWidth() - 16) / 5;
+    newButton.setBounds(8, 2, width, 24);
+    openButton.setBounds(8 + width, 2, width, 24);
+    saveButton.setBounds(8 + width * 2, 2, width, 24);
+    saveAsButton.setBounds(8 + width * 3, 2, width, 24);
+    computeButton.setBounds(8 + width * 4, 2, width, 24);
     editor->setBounds(8, 30, getWidth()-16, getHeight()-36);
 }
 
@@ -67,15 +78,35 @@ void PyoPluginAudioProcessorEditor::readFile(const File& fileToRead) {
 
     auto fileText = fileToRead.loadFileAsString();
     editor->loadContent(fileText);
-}
-
-void PyoPluginAudioProcessorEditor::filenameComponentChanged (FilenameComponent* fileComponentThatHasChanged) {
-    if (fileComponentThatHasChanged == fileComp.get())
-        readFile(fileComp->getCurrentFile());
+    currentFile = fileToRead.getFullPathName();
 }
 
 void PyoPluginAudioProcessorEditor::buttonClicked (Button* button) {
-    processor.pyo.clear();
-    processor.currentCode = editor->getDocument().getAllContent();
-    processor.pyo.exec(processor.currentCode);
+    if (button == &newButton) {
+        editor->loadContent("input = Input([0, 1])\n\ninput.out()\n");
+        currentFile = String();
+    } else if (button == &openButton) {
+        FileChooser fc ("Choose a file to open...", File("~"), "", false, false);
+        if (fc.browseForFileToOpen()) {
+            File chosen = fc.getResults().getReference(0);
+            readFile(chosen);
+        }
+    } else if (button == &saveButton) {
+        if (currentFile.isEmpty()) {
+            saveAsButton.triggerClick();
+        } else {
+            File f (currentFile);
+            f.replaceWithText(editor->getDocument().getAllContent());
+        }
+    } else if (button == &saveAsButton) {
+        FileChooser fc ("Choose a file to save...", File("~"), "", false, false);
+        if (fc.browseForFileToSave(true)) {
+            File chosen = fc.getResults().getReference(0);
+            chosen.replaceWithText(editor->getDocument().getAllContent());
+        }
+    } else if (button == &computeButton) {
+        processor.pyo.clear();
+        processor.currentCode = editor->getDocument().getAllContent();
+        processor.pyo.exec(processor.currentCode);
+    }
 }

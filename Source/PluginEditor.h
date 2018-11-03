@@ -7,7 +7,6 @@
 //==============================================================================
 
 class PyoPluginAudioProcessorEditor  : public AudioProcessorEditor,
-                                       public FilenameComponentListener,
                                        private TextButton::Listener
 {
 public:
@@ -17,7 +16,6 @@ public:
     void paint(Graphics&) override;
     void resized() override;
     void buttonClicked(Button* button) override;
-    void filenameComponentChanged(FilenameComponent* fileComponentThatHasChanged) override;
 
     void readFile(const File& fileToRead);
 
@@ -26,11 +24,16 @@ private:
 
     PyoPythonTokeniser tokeniser;
 
+    String currentFile;
+
+    TextButton newButton;
+    TextButton openButton;
+    TextButton saveButton;
+    TextButton saveAsButton;
     TextButton computeButton;
 
     CodeDocument codeDocument;
     std::unique_ptr<CodeEditorComponent> editor;
-    std::unique_ptr<FilenameComponent> fileComp;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PyoPluginAudioProcessorEditor)
 };
