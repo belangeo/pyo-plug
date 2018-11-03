@@ -1,54 +1,73 @@
-
+/**************************************************************************
+ * Copyright 2018 Olivier Belanger                                        *
+ *                                                                        *
+ * This file is part of pyo-plug, an audio plugin using the python        *
+ * module pyo to create the dsp.                                          *
+ *                                                                        *
+ * pyo-plug is free software: you can redistribute it and/or modify       *
+ * it under the terms of the GNU Lesser General Public License as         *
+ * published by the Free Software Foundation, either version 3 of the     *
+ * License, or (at your option) any later version.                        *
+ *                                                                        *
+ * pyo-plug is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of         *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
+ * GNU Lesser General Public License for more details.                    *
+ *                                                                        *
+ * You should have received a copy of the GNU LGPL along with pyo-plug.   *
+ * If not, see <http://www.gnu.org/licenses/>.                            *
+ *                                                                        *
+ *************************************************************************/
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
 //==============================================================================
-PyoPluginAudioProcessor::PyoPluginAudioProcessor() {
+PyoPlugAudioProcessor::PyoPlugAudioProcessor() {
     currentCode = "";
 }
 
-PyoPluginAudioProcessor::~PyoPluginAudioProcessor() {}
+PyoPlugAudioProcessor::~PyoPlugAudioProcessor() {}
 
 //==============================================================================
-const String PyoPluginAudioProcessor::getName() const {
+const String PyoPlugAudioProcessor::getName() const {
     return JucePlugin_Name;
 }
 
-int PyoPluginAudioProcessor::getNumParameters() {
+int PyoPlugAudioProcessor::getNumParameters() {
     return 0;
 }
 
-float PyoPluginAudioProcessor::getParameter (int index) {
+float PyoPlugAudioProcessor::getParameter (int index) {
     return 0.0f;
 }
 
-void PyoPluginAudioProcessor::setParameter (int index, float newValue) {}
+void PyoPlugAudioProcessor::setParameter (int index, float newValue) {}
 
-const String PyoPluginAudioProcessor::getParameterName (int index) {
+const String PyoPlugAudioProcessor::getParameterName (int index) {
     return String();
 }
 
-const String PyoPluginAudioProcessor::getParameterText (int index) {
+const String PyoPlugAudioProcessor::getParameterText (int index) {
     return String();
 }
 
-const String PyoPluginAudioProcessor::getInputChannelName (int channelIndex) const {
+const String PyoPlugAudioProcessor::getInputChannelName (int channelIndex) const {
     return String(channelIndex + 1);
 }
 
-const String PyoPluginAudioProcessor::getOutputChannelName (int channelIndex) const {
+const String PyoPlugAudioProcessor::getOutputChannelName (int channelIndex) const {
     return String(channelIndex + 1);
 }
 
-bool PyoPluginAudioProcessor::isInputChannelStereoPair (int index) const {
+bool PyoPlugAudioProcessor::isInputChannelStereoPair (int index) const {
     return true;
 }
 
-bool PyoPluginAudioProcessor::isOutputChannelStereoPair (int index) const {
+bool PyoPlugAudioProcessor::isOutputChannelStereoPair (int index) const {
     return true;
 }
 
-bool PyoPluginAudioProcessor::acceptsMidi() const {
+bool PyoPlugAudioProcessor::acceptsMidi() const {
    #if JucePlugin_WantsMidiInput
     return true;
    #else
@@ -56,7 +75,7 @@ bool PyoPluginAudioProcessor::acceptsMidi() const {
    #endif
 }
 
-bool PyoPluginAudioProcessor::producesMidi() const {
+bool PyoPlugAudioProcessor::producesMidi() const {
    #if JucePlugin_ProducesMidiOutput
     return true;
    #else
@@ -64,62 +83,62 @@ bool PyoPluginAudioProcessor::producesMidi() const {
    #endif
 }
 
-bool PyoPluginAudioProcessor::silenceInProducesSilenceOut() const {
+bool PyoPlugAudioProcessor::silenceInProducesSilenceOut() const {
     return false;
 }
 
-double PyoPluginAudioProcessor::getTailLengthSeconds() const {
+double PyoPlugAudioProcessor::getTailLengthSeconds() const {
     return 0.0;
 }
 
-int PyoPluginAudioProcessor::getNumPrograms() {
+int PyoPlugAudioProcessor::getNumPrograms() {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int PyoPluginAudioProcessor::getCurrentProgram() {
+int PyoPlugAudioProcessor::getCurrentProgram() {
     return 0;
 }
 
-void PyoPluginAudioProcessor::setCurrentProgram (int index) {}
+void PyoPlugAudioProcessor::setCurrentProgram (int index) {}
 
-const String PyoPluginAudioProcessor::getProgramName (int index) {
+const String PyoPlugAudioProcessor::getProgramName (int index) {
     return String();
 }
 
-void PyoPluginAudioProcessor::changeProgramName (int index, const String& newName) {}
+void PyoPlugAudioProcessor::changeProgramName (int index, const String& newName) {}
 
 //==============================================================================
-void PyoPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
+void PyoPlugAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
     pyo.setup(getTotalNumOutputChannels(), samplesPerBlock, sampleRate);
     if (currentCode != "") {
         pyo.exec(currentCode);
     }
 }
 
-void PyoPluginAudioProcessor::releaseResources() {}
+void PyoPlugAudioProcessor::releaseResources() {}
 
-void PyoPluginAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages) {
+void PyoPlugAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages) {
     pyo.process(buffer);
 }
 
 //==============================================================================
-bool PyoPluginAudioProcessor::hasEditor() const {
+bool PyoPlugAudioProcessor::hasEditor() const {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* PyoPluginAudioProcessor::createEditor() {
-    return new PyoPluginAudioProcessorEditor (*this);
+AudioProcessorEditor* PyoPlugAudioProcessor::createEditor() {
+    return new PyoPlugAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void PyoPluginAudioProcessor::getStateInformation (MemoryBlock& destData) {
+void PyoPlugAudioProcessor::getStateInformation (MemoryBlock& destData) {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void PyoPluginAudioProcessor::setStateInformation (const void* data, int sizeInBytes) {
+void PyoPlugAudioProcessor::setStateInformation (const void* data, int sizeInBytes) {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
@@ -127,5 +146,5 @@ void PyoPluginAudioProcessor::setStateInformation (const void* data, int sizeInB
 //==============================================================================
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-    return new PyoPluginAudioProcessor();
+    return new PyoPlugAudioProcessor();
 }

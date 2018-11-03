@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="xeeELL" name="PyoPlugin" projectType="audioplug" version="1.0.0"
-              bundleIdentifier="com.ajaxsoundstudio.PyoPlugin" includeBinaryInAppConfig="1"
+<JUCERPROJECT id="xeeELL" name="PyoPlug" projectType="audioplug" version="1.0.0"
+              bundleIdentifier="com.ajaxsoundstudio.PyoPlug" includeBinaryInAppConfig="1"
               buildVST="1" buildVST3="0" buildAU="0" buildRTAS="0" buildAAX="0"
-              pluginName="PyoPlugin" pluginDesc="Audio plugin using the python's module pyo to create the dsp."
+              pluginName="PyoPlug" pluginDesc="Audio plugin using the python module pyo to create the dsp."
               pluginManufacturer="belangeo" pluginManufacturerCode="Manu" pluginCode="Xeee"
               pluginIsSynth="0" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
-              pluginAUExportPrefix="PyoPluginAU" pluginRTASCategory="" aaxIdentifier="com.belangeo.PyoPlugin"
+              pluginAUExportPrefix="PyoPlugAU" pluginRTASCategory="" aaxIdentifier="com.belangeo.PyoPlug"
               pluginAAXCategory="2" jucerVersion="5.3.2" companyName="AjaxSoundStudio"
               displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
               buildAUv3="0" buildStandalone="0" enableIAA="0" pluginIsMidiEffectPlugin="0"
@@ -15,7 +15,7 @@
               companyEmail="belangeo@gmail.com" pluginRTASDisableBypass="0"
               pluginRTASDisableMultiMono="0" pluginAAXDisableBypass="0" pluginAAXDisableMultiMono="0"
               pluginCharacteristicsValue="pluginWantsMidiIn">
-  <MAINGROUP id="TSnFxn" name="PyoPlugin">
+  <MAINGROUP id="TSnFxn" name="PyoPlug">
     <GROUP id="{EAF6AB4E-0676-EBE8-20EF-891769EE7B78}" name="Source">
       <FILE id="vsfnqn" name="PythonCodeTokeniser.cpp" compile="1" resource="0"
             file="Source/PythonCodeTokeniser.cpp"/>
@@ -38,8 +38,8 @@
                 extraLinkerFlags="&#96;python-config --ldflags&#96;&#10;-Xlinker -export-dynamic"
                 extraCompilerFlags="-I/usr/include/python2.7 -I/usr/include/x86_64-linux-gnu/python2.7  -fno-strict-aliasing  -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-2.7.13=. -fstack-protector-strong -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv ">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="PyoPlugin"/>
-        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="PyoPlugin"/>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="PyoPlug"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="PyoPlug"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../../../../../git/JUCE/modules"/>
@@ -61,8 +61,8 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" extraCompilerFlags="-I/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -I/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -fno-strict-aliasing -fno-common -dynamic -arch i386 -arch x86_64 -g -DNDEBUG -g -fwrapv -O3"
                extraLinkerFlags="-L/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config -lpython2.7 -ldl -framework CoreFoundation -u _PyMac_Error /Library/Frameworks/Python.framework/Versions/2.7/Python">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="PyoPlugin"/>
-        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="PyoPlugin"
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="PyoPlug"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="PyoPlug"
                        osxArchitecture="Native"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
