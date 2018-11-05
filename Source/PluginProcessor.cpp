@@ -131,7 +131,20 @@ void PyoPlugAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
 
 void PyoPlugAudioProcessor::releaseResources() {}
 
-void PyoPlugAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages) {
+void PyoPlugAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi) {
+    if (midi.getNumEvents() > 0) {
+        MidiMessage msg;
+        int ignore;
+        for (MidiBuffer::Iterator it(midi); it.getNextEvent(msg, ignore); ) {
+            unsigned int status = 0, data1 = 0, data2 = 0;
+            if (msg.getRawDataSize() > 0) { status = msg.getRawData()[0]; }
+            if (msg.getRawDataSize() > 1) { data1 = msg.getRawData()[1]; }
+            if (msg.getRawDataSize() > 2) { data2 = msg.getRawData()[2]; }
+            pyo.midi(status, data1, data2);
+        }
+        midi.clear();
+    }
+
     pyo.process(buffer);
 }
 

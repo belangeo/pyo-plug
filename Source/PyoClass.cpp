@@ -282,7 +282,7 @@ int Pyo::exec(const String &_msg) {
 */
 
 void Pyo::midi(int status, int data1, int data2) {
-    return pyo_add_midi_event(interpreter, status, data1, data2);
+    pyo_add_midi_event(interpreter, status, data1, data2);
 }
 
 /*
