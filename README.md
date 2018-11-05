@@ -18,6 +18,11 @@ and save it in the local VST folder of the system.
 
 * For Windows users: because pyo is only compiled for 32-bit python, the plugin is 32-bit only on Windows.
 
+* If you use Reaper on MacOS, in order to be able to use space and return key in the
+code editor, you need to open the Fx chain window where is your plugin (right-click
+on the plugin name in the mixer and choose "Show FX chain"), then right-click on the
+plugin name and select "Send all keyboard input to plug-in".
+
 ## Donation
 
 This project is developed by Olivier Bélanger on his free time to provide a 
