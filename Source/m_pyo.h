@@ -19,7 +19,11 @@
  *                                                                        *
  *************************************************************************/
 #include <stdlib.h>
+
+#if !defined(_WIN32)
 #include <dlfcn.h>
+#endif
+
 #include "Python.h"
 
 #ifndef __m_pyo_h_
@@ -42,9 +46,11 @@ extern "C" {
 #define PY_STRING_AS_STRING(a) PyBytes_AsString(a)
 #endif
 
+#if !defined(_WIN32)
 /* libpython handle. libpython must be made available to the program loaded
 ** in a new interpreter. */
 static void *libpython_handle;
+#endif
 
 /*
 ** Creates a new python interpreter and starts a pyo server in it.
@@ -68,17 +74,19 @@ INLINE PyThreadState * pyo_new_interpreter(float sr, int bufsize, int chnls) {
         PyEval_ReleaseLock();
     }
 
-    /* This call hardcodes 2.7 as the python version to be used to embed pyo in
-       a C or C++ program. This is not a good idea and must be fixed when everthing
-       is stable.
-    */
-    if (libpython_handle == NULL) {
+#if !defined(_WIN32)
+	/* This call hardcodes 2.7 as the python version to be used to embed pyo in
+	   a C or C++ program. This is not a good idea and must be fixed when everthing
+	   is stable.
+	*/
+	if (libpython_handle == NULL) {
 #ifdef __linux__
         libpython_handle = dlopen("libpython2.7.so", RTLD_LAZY | RTLD_GLOBAL);
 #elif __APPLE__
         libpython_handle = dlopen("libpython2.7.dylib", RTLD_LAZY | RTLD_GLOBAL);
 #endif
     }
+#endif
 
     PyEval_AcquireLock();              /* get the GIL */
     interp = Py_NewInterpreter();      /* add a new sub-interpreter */
@@ -90,10 +98,16 @@ INLINE PyThreadState * pyo_new_interpreter(float sr, int bufsize, int chnls) {
     sprintf(msg, "_s_ = Server(%f, %d, %d, 1, 'embedded')", sr, chnls, bufsize);
     PyRun_SimpleString(msg);
     PyRun_SimpleString("_s_.boot()\n_s_.start()\n_s_.setServer()");
-    PyRun_SimpleString("_in_address_ = _s_.getInputAddr()");
-    PyRun_SimpleString("_out_address_ = _s_.getOutputAddr()");
-    PyRun_SimpleString("_server_id_ = _s_.getServerID()");
-    PyRun_SimpleString("_emb_callback_ = _s_.getEmbedICallbackAddr()");
+	PyRun_SimpleString("_server_id_ = _s_.getServerID()");
+#if defined(_WIN32)
+	PyRun_SimpleString("_in_address_ = '0x' + _s_.getInputAddr().lower()");
+    PyRun_SimpleString("_out_address_ = '0x' + _s_.getOutputAddr().lower()");
+    PyRun_SimpleString("_emb_callback_ = '0x' + _s_.getEmbedICallbackAddr().lower()");
+#else
+	PyRun_SimpleString("_in_address_ = _s_.getInputAddr()");
+	PyRun_SimpleString("_out_address_ = _s_.getOutputAddr()");
+	PyRun_SimpleString("_emb_callback_ = _s_.getEmbedICallbackAddr()");
+#endif
     PyEval_ReleaseThread(interp);
     return interp;
 }
@@ -182,7 +196,7 @@ INLINE unsigned long pyo_get_output_buffer_address(PyThreadState *interp) {
 INLINE unsigned long pyo_get_embedded_callback_address(PyThreadState *interp) {
     PyObject *module, *obj;
     char *address;
-    unsigned long uadd;
+	unsigned long uadd;
     PyEval_AcquireThread(interp);
     module = PyImport_AddModule("__main__");
     obj = PyObject_GetAttrString(module, "_emb_callback_");
@@ -234,9 +248,12 @@ INLINE void pyo_end_interpreter(PyThreadState *interp) {
     PyThreadState_Clear(interp);
     PyThreadState_Delete(interp);
 
-    if (libpython_handle != NULL) {
+#if !defined(_WIN32)
+	if (libpython_handle != NULL) {
         dlclose(libpython_handle);
     }
+#endif
+
 }
 
 /*
@@ -266,10 +283,10 @@ INLINE void pyo_set_server_params(PyThreadState *interp, float sr, int bufsize) 
     PyRun_SimpleString("_s_.setServer()\n_s_.stop()\n_s_.shutdown()");
     sprintf(msg, "_s_.setSamplingRate(%f)", sr);
     PyRun_SimpleString(msg);
-    sprintf(msg, "_s_.setBufferSize(%d)", bufsize);
+	sprintf(msg, "_s_.setBufferSize(%d)", bufsize);
     PyRun_SimpleString(msg);
-    PyRun_SimpleString("_s_.boot(newBuffer=False).start()");
-    PyEval_ReleaseThread(interp);
+	PyRun_SimpleString("_s_.boot(newBuffer=False).start()");
+	PyEval_ReleaseThread(interp);
 }
 
 /*
