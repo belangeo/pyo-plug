@@ -33,7 +33,9 @@ PyoPlugAudioProcessorEditor::PyoPlugAudioProcessorEditor (PyoPlugAudioProcessor&
     templateCombo.addItem ("StereoDelay", 1);
     templateCombo.addItem ("StereoVerb", 2);
     templateCombo.addItem ("ConvoVerb", 3);
-    templateCombo.addItem ("MidiSynth", 4);
+    templateCombo.addItem ("Resonators", 4);
+    templateCombo.addItem ("Phasing", 5);
+    templateCombo.addItem ("MidiSynth", 6);
     templateCombo.onChange = [this] { templateComboChanged(); };
     templateCombo.setTextWhenNothingSelected("Templates...");
 
