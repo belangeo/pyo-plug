@@ -21,9 +21,22 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+const char *initialDSP =
+"input = Input([0, 1]).out()\n"
+"\n"
+"# These LFOs modulate the `freq`, `spread` and `q` arguments of\n"
+"# the Phaser object. We give a list of two frequencies in order\n"
+"# to create two-streams LFOs, therefore a stereo phasing effect.\n"
+"lf1 = Sine(freq=[.1, .15], mul=100, add=250)\n"
+"lf2 = Sine(freq=[.18, .13], mul=.4, add=1.5)\n"
+"lf3 = Sine(freq=[.07, .09], mul=5, add=6)\n"
+"\n"
+"# Apply the phasing effect with 20 notches.\n"
+"b = Phaser(input, freq=lf1, spread=lf2, q=lf3, num=20, mul=.5).out()\n";
+
 //==============================================================================
 PyoPlugAudioProcessor::PyoPlugAudioProcessor() {
-    currentCode = "";
+    currentCode = String(initialDSP);
 }
 
 PyoPlugAudioProcessor::~PyoPlugAudioProcessor() {}
@@ -133,14 +146,13 @@ AudioProcessorEditor* PyoPlugAudioProcessor::createEditor() {
 
 //==============================================================================
 void PyoPlugAudioProcessor::getStateInformation (MemoryBlock& destData) {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    String content(currentCode);
+    destData.replaceWith((&content)->toUTF8(),
+                         CharPointer_UTF8::getBytesRequiredFor(content.getCharPointer()));
 }
 
 void PyoPlugAudioProcessor::setStateInformation (const void* data, int sizeInBytes) {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    currentCode = String::createStringFromData(data, sizeInBytes);
 }
 
 //==============================================================================
