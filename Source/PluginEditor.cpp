@@ -20,12 +20,22 @@
  *************************************************************************/
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "Templates.h"
 
 //==============================================================================
 PyoPlugAudioProcessorEditor::PyoPlugAudioProcessorEditor (PyoPlugAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p) 
 {
     currentFile = String();
+
+    addAndMakeVisible (templateCombo);
+
+    templateCombo.addItem ("StereoDelay", 1);
+    templateCombo.addItem ("StereoVerb", 2);
+    templateCombo.addItem ("ConvoVerb", 3);
+    templateCombo.addItem ("MidiSynth", 4);
+    templateCombo.onChange = [this] { templateComboChanged(); };
+    templateCombo.setTextWhenNothingSelected("Templates...");
 
     buttonSetup(&newButton, "New");
     buttonSetup(&openButton, "Open");
@@ -58,14 +68,15 @@ void PyoPlugAudioProcessorEditor::paint(Graphics& g) {
 }
 
 void PyoPlugAudioProcessorEditor::resized() {
-    int width = (getWidth() - 16 - 60) / 5;
-    newButton.setBounds(8, 2, width, 24);
-    openButton.setBounds(8 + width, 2, width, 24);
-    saveButton.setBounds(8 + width * 2, 2, width, 24);
-    saveAsButton.setBounds(8 + width * 3, 2, width, 24);
-    computeButton.setBounds(8 + width * 4, 2, width, 24);
-    zoomOutButton.setBounds(8 + width * 5, 2, 30, 24);
-    zoomInButton.setBounds(8 + width * 5 + 30, 2, 30, 24);
+    int width = (getWidth() - 16 - 60) / 6;
+    templateCombo.setBounds(8, 2, width, 24);
+    newButton.setBounds(8 + width, 2, width, 24);
+    openButton.setBounds(8 + width * 2, 2, width, 24);
+    saveButton.setBounds(8 + width * 3, 2, width, 24);
+    saveAsButton.setBounds(8 + width * 4, 2, width, 24);
+    computeButton.setBounds(8 + width * 5, 2, width, 24);
+    zoomOutButton.setBounds(8 + width * 6, 2, 30, 24);
+    zoomInButton.setBounds(8 + width * 6 + 30, 2, 30, 24);
     editor->setBounds(8, 30, getWidth()-16, getHeight()-36);
 }
 
@@ -116,4 +127,10 @@ void PyoPlugAudioProcessorEditor::buttonSetup(TextButton *button, String buttonT
     button->setButtonText(buttonText);
     button->addListener(this);
     addAndMakeVisible(button);
+}
+
+void PyoPlugAudioProcessorEditor::templateComboChanged() {
+    editor->loadContent(templates[templateCombo.getSelectedId()]);
+    currentFile = String();
+
 }

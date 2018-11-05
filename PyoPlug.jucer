@@ -17,6 +17,7 @@
               pluginCharacteristicsValue="pluginWantsMidiIn">
   <MAINGROUP id="TSnFxn" name="PyoPlug">
     <GROUP id="{EAF6AB4E-0676-EBE8-20EF-891769EE7B78}" name="Source">
+      <FILE id="hLVYAO" name="Templates.h" compile="0" resource="0" file="Source/Templates.h"/>
       <FILE id="vsfnqn" name="PythonCodeTokeniser.cpp" compile="1" resource="0"
             file="Source/PythonCodeTokeniser.cpp"/>
       <FILE id="xVAP94" name="PythonCodeTokeniser.h" compile="0" resource="0"

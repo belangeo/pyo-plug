@@ -25,9 +25,8 @@
 #include "PythonCodeTokeniser.h"
 
 //==============================================================================
-
 class PyoPlugAudioProcessorEditor  : public AudioProcessorEditor,
-                                       private TextButton::Listener
+                                     private TextButton::Listener
 {
 public:
     PyoPlugAudioProcessorEditor(PyoPlugAudioProcessor&);
@@ -36,6 +35,8 @@ public:
     void paint(Graphics&) override;
     void resized() override;
     void buttonClicked(Button* button) override;
+
+    void templateComboChanged();
 
     void buttonSetup(TextButton *button, String textButton);
     void readFile(const File& fileToRead);
@@ -47,6 +48,7 @@ private:
 
     String currentFile;
 
+    ComboBox templateCombo;
     TextButton newButton;
     TextButton openButton;
     TextButton saveButton;
