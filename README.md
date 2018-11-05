@@ -17,3 +17,13 @@ Then, download the plugin from the [Release page](https://github.com/belangeo/py
 and save it in the local VST folder of the system.
 
 * For Windows users: because pyo is only compiled for 32-bit python, the plugin is 32-bit only on Windows.
+
+## Donation
+
+This project is developed by Olivier Bélanger on his free time to provide a 
+fully integrated Python dsp module for sound exploration and music composition. 
+If you feel this project is useful to you and want to support it and it's 
+future development please consider donating money. I only ask for a small 
+donation, but of course I appreciate any amount.
+
+[![](https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9CA99DH6ES3HA)
