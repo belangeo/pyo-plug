@@ -23,7 +23,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PyoClass.h"
 
-class PyoPlugAudioProcessor  : public AudioProcessor
+class PyoPlugAudioProcessor  : public AudioProcessor,
+                               public AudioProcessorValueTreeState::Listener
 {
 public:
     //==============================================================================
@@ -43,18 +44,6 @@ public:
     //==============================================================================
     const String getName() const override;
 
-    int getNumParameters() override;
-    float getParameter (int index) override;
-    void setParameter (int index, float newValue) override;
-
-    const String getParameterName (int index) override;
-    const String getParameterText (int index) override;
-
-    const String getInputChannelName (int channelIndex) const override;
-    const String getOutputChannelName (int channelIndex) const override;
-    bool isInputChannelStereoPair (int index) const override;
-    bool isOutputChannelStereoPair (int index) const override;
-
     bool acceptsMidi() const override;
     bool producesMidi() const override;
     bool silenceInProducesSilenceOut() const override;
@@ -71,6 +60,10 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    void computeCode(String code);
+
+    void parameterChanged(const String& parameterID, float newValue);
+
     Pyo pyo;
 
     String currentCode;
@@ -79,6 +72,8 @@ public:
     MidiKeyboardState keyboardState;
 
 private:
+    AudioProcessorValueTreeState parameters;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PyoPlugAudioProcessor)
 };

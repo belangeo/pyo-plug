@@ -24,8 +24,16 @@
 const char *initialDSP = "input = Input([0, 1])\n\ninput.out()\n";
 
 //==============================================================================
-PyoPlugAudioProcessor::PyoPlugAudioProcessor() {
+PyoPlugAudioProcessor::PyoPlugAudioProcessor() : parameters (*this, nullptr) {
     currentCode = String(initialDSP);
+
+    for (int i = 1; i <= 12; i++) {
+        parameters.createAndAddParameter(String("PARAM") + String(i),
+                                         String("PyoPlug parameter ") + String(i),
+                                         String(), NormalisableRange<float>(0.0f, 1.0f), 0.0f, nullptr, nullptr, true, true);
+        parameters.addParameterListener(String("PARAM") + String(i), this);
+    }
+    parameters.state = ValueTree(Identifier(JucePlugin_Name));
 }
 
 PyoPlugAudioProcessor::~PyoPlugAudioProcessor() {}
@@ -33,40 +41,6 @@ PyoPlugAudioProcessor::~PyoPlugAudioProcessor() {}
 //==============================================================================
 const String PyoPlugAudioProcessor::getName() const {
     return JucePlugin_Name;
-}
-
-int PyoPlugAudioProcessor::getNumParameters() {
-    return 0;
-}
-
-float PyoPlugAudioProcessor::getParameter (int index) {
-    return 0.0f;
-}
-
-void PyoPlugAudioProcessor::setParameter (int index, float newValue) {}
-
-const String PyoPlugAudioProcessor::getParameterName (int index) {
-    return String();
-}
-
-const String PyoPlugAudioProcessor::getParameterText (int index) {
-    return String();
-}
-
-const String PyoPlugAudioProcessor::getInputChannelName (int channelIndex) const {
-    return String(channelIndex + 1);
-}
-
-const String PyoPlugAudioProcessor::getOutputChannelName (int channelIndex) const {
-    return String(channelIndex + 1);
-}
-
-bool PyoPlugAudioProcessor::isInputChannelStereoPair (int index) const {
-    return true;
-}
-
-bool PyoPlugAudioProcessor::isOutputChannelStereoPair (int index) const {
-    return true;
 }
 
 bool PyoPlugAudioProcessor::acceptsMidi() const {
@@ -119,7 +93,7 @@ void PyoPlugAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     pyo.setbpm(infos.bpm);
 
     if (currentCode != "") {
-        pyo.exec(currentCode);
+        computeCode(currentCode);
     }
 
     keyboardState.reset();
@@ -167,6 +141,19 @@ void PyoPlugAudioProcessor::getStateInformation (MemoryBlock& destData) {
 
 void PyoPlugAudioProcessor::setStateInformation (const void* data, int sizeInBytes) {
     currentCode = String::createStringFromData(data, sizeInBytes);
+}
+
+void PyoPlugAudioProcessor::computeCode(String code) {
+    pyo.clear();
+    for (int i = 1; i <= 12; i++) {
+        pyo.exec(String("PARAM") + String(i) + String(" = SigTo(0.0, 0.025)"));
+    }
+    currentCode = code;
+    pyo.exec(currentCode);
+}
+
+void PyoPlugAudioProcessor::parameterChanged(const String& parameterID, float newValue) {
+    pyo.value(parameterID, newValue);
 }
 
 //==============================================================================

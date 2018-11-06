@@ -23,7 +23,7 @@
 #include "Templates.h"
 
 //==============================================================================
-PyoPlugAudioProcessorEditor::PyoPlugAudioProcessorEditor (PyoPlugAudioProcessor& p)
+PyoPlugAudioProcessorEditor::PyoPlugAudioProcessorEditor(PyoPlugAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p),
       keyboardComponent (p.keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 {
@@ -122,9 +122,7 @@ void PyoPlugAudioProcessorEditor::buttonClicked (Button* button) {
     } else if (button == &zoomInButton) {
         editor->setFont(editor->getFont().withHeight(editor->getFont().getHeight() + 1));
     } else if (button == &computeButton) {
-        processor.pyo.clear();
-        processor.currentCode = editor->getDocument().getAllContent();
-        processor.pyo.exec(processor.currentCode);
+        processor.computeCode(editor->getDocument().getAllContent());
     } else if (button == &vmpkButton) {
         resized();
     }
