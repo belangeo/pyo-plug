@@ -25,7 +25,11 @@
 const char *StereoDelay =
 "input = Input([0, 1]).out()\n"
 "\n"
-"stdel = Delay(input, delay=[.1, .2], feedback=0.5).out()\n";
+"# Duration of a quarter.\n"
+"delaytime = 60 / BPM\n"
+"\n"
+"stdel = Delay(input, delay=[delaytime, delaytime/2],\n"
+"              maxdelay=delaytime, feedback=0.5).out()\n";
 
 const char *StereoVerb =
 "input = Input([0, 1]).out()\n"

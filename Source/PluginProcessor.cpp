@@ -112,7 +112,12 @@ void PyoPlugAudioProcessor::changeProgramName (int index, const String& newName)
 
 //==============================================================================
 void PyoPlugAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
+    AudioPlayHead::CurrentPositionInfo infos;
+    getPlayHead()->getCurrentPosition(infos);
+
     pyo.setup(getTotalNumOutputChannels(), samplesPerBlock, sampleRate);
+    pyo.setbpm(infos.bpm);
+
     if (currentCode != "") {
         pyo.exec(currentCode);
     }

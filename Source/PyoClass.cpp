@@ -58,6 +58,18 @@ Pyo::~Pyo() {
 }
 
 /*
+** This function can be used to pass the DAW's bpm value to the 
+** python interpreter. Changes the value of the BPM variable 
+** (which defaults to 60).
+**
+** arguments:
+**   bpm : double, new BPM.
+*/
+void Pyo::setbpm(double bpm) {
+    pyo_set_bpm(interpreter, bpm);
+}
+
+/*
 ** This function fills pyo's input buffers with new samples, tells pyo to
 ** process a buffer of samples and fills the host's output buffer with new
 ** samples. Should be called once per process block, inside the host's
