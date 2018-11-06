@@ -34,36 +34,38 @@ const char *StereoDelay =
 const char *StereoVerb =
 "input = Input([0, 1]).out()\n"
 "\n"
-"strev = STRev(input, inpos=[.1, .9], revtime=2, cutoff=5000, bal=0.3).out()\n";
+"highpassed = ButHP(input, 100)\n"
+"stereorev = STRev(highpassed, inpos=[.1, .9], revtime=1.5,\n"
+"                  cutoff=5000, bal=.3, roomSize=1.5).out()\n";
 
 const char *ConvoVerb =
-"input = Input([0, 1]).out()\n"
+"input = Input([0, 1])\n"
 "\n"
-"reverb = CvlVerb(input, bal=0.3).out()\n";
+"reverb = CvlVerb(input, bal=0.25).out()\n";
 
 const char *Resonators = 
 "input = Input([0, 1])\n"
 "\n"
 "fondamental = 20\n"
-"spread = 1.05\n"
-"frequencies = [fondamental * pow(i, spread) for i in range(24)]\n"
+"spread = 1.1\n"
+"frequencies = [fondamental * pow(i, spread) for i in range(1, 25)]\n"
 "\n"
-"resonators = Waveguide(input, freq=frequencies, dur=20, mul=0.05)\n"
+"resonators = Waveguide(input, freq=frequencies, dur=30, mul=0.05)\n"
 "\n"
-"balance = Interp(input, resonators.mix(2), interp=0.5, mul=0.7).out()\n";
+"balance = Interp(input, resonators.mix(2), interp=0.3, mul=0.7).out()\n";
 
 const char *Phasing =
-"input = Input([0, 1]).out()\n"
+"input = Input([0, 1], mul=0.7).out()\n"
 "\n"
 "# These LFOs modulate the `freq`, `spread` and `q` arguments of\n"
 "# the Phaser object. We give a list of two frequencies in order\n"
 "# to create two-streams LFOs, therefore a stereo phasing effect.\n"
-"lf1 = Sine(freq=[.1, .15], mul=100, add=250)\n"
-"lf2 = Sine(freq=[.18, .13], mul=.4, add=1.5)\n"
-"lf3 = Sine(freq=[.07, .09], mul=5, add=6)\n"
+"lf1 = Sine(freq=[.1, .15]).range(100, 400)\n"
+"lf2 = Sine(freq=[.18, .13]).range(1.1, 1.9)\n"
+"lf3 = Sine(freq=[.07, .09]).range(1, 8)\n"
 "\n"
 "# Apply the phasing effect with 20 notches.\n"
-"b = Phaser(input, freq=lf1, spread=lf2, q=lf3, num=20, mul=.5).out()\n";
+"b = Phaser(input, freq=lf1, spread=lf2, q=lf3, num=20, mul=0.7).out()\n";
 
 const char *MidiSynth =
 "class Synth:\n"
