@@ -24,11 +24,12 @@
 
 //==============================================================================
 PyoPlugAudioProcessorEditor::PyoPlugAudioProcessorEditor (PyoPlugAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p) 
+    : AudioProcessorEditor (&p), processor (p),
+      keyboardComponent (p.keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 {
     currentFile = String();
 
-    addAndMakeVisible (templateCombo);
+    addAndMakeVisible (keyboardComponent);
 
     templateCombo.addItem ("StereoDelay", 1);
     templateCombo.addItem ("StereoVerb", 2);
@@ -37,15 +38,20 @@ PyoPlugAudioProcessorEditor::PyoPlugAudioProcessorEditor (PyoPlugAudioProcessor&
     templateCombo.addItem ("Phasing", 5);
     templateCombo.addItem ("MidiSynth", 6);
     templateCombo.onChange = [this] { templateComboChanged(); };
-    templateCombo.setTextWhenNothingSelected("Templates...");
+    templateCombo.setTextWhenNothingSelected("Templates");
+    addAndMakeVisible (templateCombo);
 
     buttonSetup(&newButton, "New");
     buttonSetup(&openButton, "Open");
     buttonSetup(&saveButton, "Save");
     buttonSetup(&saveAsButton, "Save as");
     buttonSetup(&computeButton, "Compute");
+    buttonSetup(&vmpkButton, "VMPK");
     buttonSetup(&zoomOutButton, "-");
     buttonSetup(&zoomInButton, "+");
+
+    vmpkButton.setClickingTogglesState(true);
+    vmpkButton.setColour(TextButton::buttonOnColourId, Colours::darkgrey);
 
     editor.reset(new CodeEditorComponent(codeDocument, &tokeniser));
     editor->loadContent(processor.currentCode);
@@ -57,7 +63,7 @@ PyoPlugAudioProcessorEditor::PyoPlugAudioProcessorEditor (PyoPlugAudioProcessor&
     editor->setColour(CodeEditorComponent::lineNumberTextId, Colours::black);
     addAndMakeVisible(editor.get());
 
-    setSize (900, 700);
+    setSize (900, 680);
 
     computeButton.triggerClick();
 }
@@ -70,16 +76,22 @@ void PyoPlugAudioProcessorEditor::paint(Graphics& g) {
 }
 
 void PyoPlugAudioProcessorEditor::resized() {
-    int width = (getWidth() - 16 - 60) / 6;
+    int width = (getWidth() - 16 - 120) / 6;
     templateCombo.setBounds(8, 2, width, 24);
     newButton.setBounds(8 + width, 2, width, 24);
     openButton.setBounds(8 + width * 2, 2, width, 24);
     saveButton.setBounds(8 + width * 3, 2, width, 24);
     saveAsButton.setBounds(8 + width * 4, 2, width, 24);
     computeButton.setBounds(8 + width * 5, 2, width, 24);
-    zoomOutButton.setBounds(8 + width * 6, 2, 30, 24);
-    zoomInButton.setBounds(8 + width * 6 + 30, 2, 30, 24);
-    editor->setBounds(8, 30, getWidth()-16, getHeight()-36);
+    vmpkButton.setBounds(8 + width * 6, 2, 60, 24);
+    zoomOutButton.setBounds(8 + width * 6 + 60, 2, 30, 24);
+    zoomInButton.setBounds(8 + width * 6 + 90, 2, 30, 24);
+    if (vmpkButton.getToggleState()) {
+        editor->setBounds(8, 30, getWidth()-16, 560);
+        keyboardComponent.setBounds (8, 600, getWidth()-20, 72);
+    } else {
+        editor->setBounds(8, 30, getWidth()-16, getHeight()-36);
+    }
 }
 
 void PyoPlugAudioProcessorEditor::buttonClicked (Button* button) {
@@ -113,6 +125,8 @@ void PyoPlugAudioProcessorEditor::buttonClicked (Button* button) {
         processor.pyo.clear();
         processor.currentCode = editor->getDocument().getAllContent();
         processor.pyo.exec(processor.currentCode);
+    } else if (button == &vmpkButton) {
+        resized();
     }
 }
 
@@ -125,7 +139,7 @@ void PyoPlugAudioProcessorEditor::readFile(const File& fileToRead) {
     currentFile = fileToRead.getFullPathName();
 }
 
-void PyoPlugAudioProcessorEditor::buttonSetup(TextButton *button, String buttonText) {
+void PyoPlugAudioProcessorEditor::buttonSetup(Button *button, String buttonText) {
     button->setButtonText(buttonText);
     button->addListener(this);
     addAndMakeVisible(button);

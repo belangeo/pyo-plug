@@ -121,11 +121,18 @@ void PyoPlugAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     if (currentCode != "") {
         pyo.exec(currentCode);
     }
+
+    keyboardState.reset();
 }
 
-void PyoPlugAudioProcessor::releaseResources() {}
+void PyoPlugAudioProcessor::releaseResources() {
+    keyboardState.reset();
+}
 
 void PyoPlugAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi) {
+    const int numSamples = buffer.getNumSamples();
+    keyboardState.processNextMidiBuffer (midi, 0, numSamples, true);
+
     if (midi.getNumEvents() > 0) {
         MidiMessage msg;
         int ignore;

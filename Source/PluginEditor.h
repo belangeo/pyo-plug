@@ -38,7 +38,7 @@ public:
 
     void templateComboChanged();
 
-    void buttonSetup(TextButton *button, String textButton);
+    void buttonSetup(Button *button, String textButton);
     void readFile(const File& fileToRead);
 
 private:
@@ -54,11 +54,14 @@ private:
     TextButton saveButton;
     TextButton saveAsButton;
     TextButton computeButton;
+    TextButton vmpkButton;
     TextButton zoomOutButton;
     TextButton zoomInButton;
 
     CodeDocument codeDocument;
     std::unique_ptr<CodeEditorComponent> editor;
+
+    MidiKeyboardComponent keyboardComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PyoPlugAudioProcessorEditor)
 };

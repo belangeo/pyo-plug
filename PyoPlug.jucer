@@ -58,6 +58,7 @@
         <MODULEPATH id="juce_audio_formats" path="../../juce"/>
         <MODULEPATH id="juce_audio_devices" path="../../juce"/>
         <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+        <MODULEPATH id="juce_audio_utils" path="../../JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
     <LINUX_MAKE targetFolder="Builds/LinuxMakefile" vstFolder="~/Dropbox/private/VST/vstsdk2.4"
@@ -82,6 +83,7 @@
         <MODULEPATH id="juce_audio_formats" path="../../../../../git/JUCE/modules"/>
         <MODULEPATH id="juce_audio_processors" path="../../../../../git/JUCE/modules"/>
         <MODULEPATH id="juce_audio_plugin_client" path="../../../../../git/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
     <VS2017 targetFolder="Builds/VisualStudio2017" externalLibraries="python27.lib&#10;">
@@ -107,6 +109,7 @@
         <MODULEPATH id="juce_audio_formats" path="../../juce"/>
         <MODULEPATH id="juce_audio_devices" path="../../juce"/>
         <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+        <MODULEPATH id="juce_audio_utils" path="../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2017>
   </EXPORTFORMATS>
@@ -117,6 +120,7 @@
     <MODULES id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
              useGlobalPath="1"/>
     <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULES id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULES id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

@@ -74,6 +74,9 @@ public:
     Pyo pyo;
 
     String currentCode;
+    AudioProcessorEditor *editor;
+
+    MidiKeyboardState keyboardState;
 
 private:
     //==============================================================================
