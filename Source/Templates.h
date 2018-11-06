@@ -22,6 +22,33 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+const char *HowTo =
+"######################\n"
+"# How to use PyoPlug #\n"
+"######################\n"
+"\n"
+"# Press the 'Compute' button to compile your code in the plugin processor.\n"
+"# Opening a file or typing some text don't automatically compile the code!\n"
+"\n"
+"# The Input object is the entry point of the plugin.\n"
+"# Give it a list of the channels you want to process.\n"
+"input = Input([0, 1])\n"
+"\n"
+"# The out() method send this particular signal to the plugin output(s).\n"
+"input.out()\n"
+"\n"
+"# The BPM variable holds the project's BPM.\n"
+"# Duration of a quarter.\n"
+"quarter = 60 / BPM\n"
+"\n"
+"# Add some delay to the signal.\n"
+"# Yes, you can call the out() method on many objects (signals will be added up).\n" 
+"delay = Delay(input, delay=quarter, maxdelay=quarter, feedback=0.5, mul=0.7).out()\n"
+"\n"
+"# Up to 12 automations can be retrieved in the code, they're named PARAM1, PARAM2, ..., PARAM12.\n"
+"# Automate the first parameter to hear a lower octave transposition on the input.\n"
+"harmo = Harmonizer(input, transpo=-12, mul=PARAM1).out()\n";
+
 const char *StereoDelay =
 "input = Input([0, 1]).out()\n"
 "\n"
@@ -100,4 +127,4 @@ const char *MidiSynth =
 "\n"
 "rev = STRev(synth.sig(), inpos=[0.5], revtime=2, cutoff=4000, bal=.15).out()\n";
 
-StringArray templates ({ nullptr, StereoDelay, StereoVerb, ConvoVerb, Resonators, Phasing, MidiSynth });
+StringArray templates ({ nullptr, HowTo, StereoDelay, StereoVerb, ConvoVerb, Resonators, Phasing, MidiSynth });

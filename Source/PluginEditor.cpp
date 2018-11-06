@@ -31,12 +31,13 @@ PyoPlugAudioProcessorEditor::PyoPlugAudioProcessorEditor(PyoPlugAudioProcessor& 
 
     addAndMakeVisible (keyboardComponent);
 
-    templateCombo.addItem ("StereoDelay", 1);
-    templateCombo.addItem ("StereoVerb", 2);
-    templateCombo.addItem ("ConvoVerb", 3);
-    templateCombo.addItem ("Resonators", 4);
-    templateCombo.addItem ("Phasing", 5);
-    templateCombo.addItem ("MidiSynth", 6);
+    templateCombo.addItem ("HowTo", 1);
+    templateCombo.addItem ("StereoDelay", 2);
+    templateCombo.addItem ("StereoVerb", 3);
+    templateCombo.addItem ("ConvoVerb", 4);
+    templateCombo.addItem ("Resonators", 5);
+    templateCombo.addItem ("Phasing", 6);
+    templateCombo.addItem ("MidiSynth", 7);
     templateCombo.onChange = [this] { templateComboChanged(); };
     templateCombo.setTextWhenNothingSelected("Templates");
     addAndMakeVisible (templateCombo);
