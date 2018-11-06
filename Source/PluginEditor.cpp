@@ -24,9 +24,12 @@
 
 //==============================================================================
 PyoPlugAudioProcessorEditor::PyoPlugAudioProcessorEditor (PyoPlugAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p) 
+    : AudioProcessorEditor (&p), processor (p),
+    keyboardComponent (p.keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 {
     currentFile = String();
+    
+    addAndMakeVisible (keyboardComponent);
 
     addAndMakeVisible (templateCombo);
 
@@ -57,7 +60,7 @@ PyoPlugAudioProcessorEditor::PyoPlugAudioProcessorEditor (PyoPlugAudioProcessor&
     editor->setColour(CodeEditorComponent::lineNumberTextId, Colours::black);
     addAndMakeVisible(editor.get());
 
-    setSize (900, 700);
+    setSize (900, 680);
 
     computeButton.triggerClick();
 }
@@ -79,7 +82,8 @@ void PyoPlugAudioProcessorEditor::resized() {
     computeButton.setBounds(8 + width * 5, 2, width, 24);
     zoomOutButton.setBounds(8 + width * 6, 2, 30, 24);
     zoomInButton.setBounds(8 + width * 6 + 30, 2, 30, 24);
-    editor->setBounds(8, 30, getWidth()-16, getHeight()-36);
+    editor->setBounds(8, 30, getWidth()-16, 560);
+    keyboardComponent.setBounds (8, 600, getWidth()-20, 72);
 }
 
 void PyoPlugAudioProcessorEditor::buttonClicked (Button* button) {

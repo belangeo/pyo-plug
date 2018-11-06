@@ -74,6 +74,8 @@ public:
     Pyo pyo;
 
     String currentCode;
+    
+    MidiKeyboardState keyboardState;
 
 private:
     //==============================================================================

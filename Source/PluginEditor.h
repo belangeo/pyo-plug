@@ -59,6 +59,7 @@ private:
 
     CodeDocument codeDocument;
     std::unique_ptr<CodeEditorComponent> editor;
+    MidiKeyboardComponent keyboardComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PyoPlugAudioProcessorEditor)
 };
