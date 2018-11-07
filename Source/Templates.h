@@ -128,3 +128,4 @@ const char *MidiSynth =
 "rev = STRev(synth.sig(), inpos=[0.5], revtime=2, cutoff=4000, bal=.15).out()\n";
 
 StringArray templates ({ nullptr, HowTo, StereoDelay, StereoVerb, ConvoVerb, Resonators, Phasing, MidiSynth });
+StringArray templatesNames ({ "HowTo", "StereoDelay", "StereoVerb", "ConvoVerb", "Resonators", "Phasing", "MidiSynth" });

@@ -29,18 +29,16 @@ PyoPlugAudioProcessorEditor::PyoPlugAudioProcessorEditor(PyoPlugAudioProcessor& 
 {
     currentFile = String();
 
-    addAndMakeVisible (keyboardComponent);
+    addAndMakeVisible(keyboardComponent);
 
-    templateCombo.addItem ("HowTo", 1);
-    templateCombo.addItem ("StereoDelay", 2);
-    templateCombo.addItem ("StereoVerb", 3);
-    templateCombo.addItem ("ConvoVerb", 4);
-    templateCombo.addItem ("Resonators", 5);
-    templateCombo.addItem ("Phasing", 6);
-    templateCombo.addItem ("MidiSynth", 7);
-    templateCombo.onChange = [this] { templateComboChanged(); };
+    for (int i = 0; i < templatesNames.size(); i++) {
+        templateCombo.addItem(templatesNames[i], i+1);
+    }
+    templateCombo.onChange = [this] { editor->loadContent(templates[templateCombo.getSelectedId()]);
+                                      currentFile = String();
+                                    };
     templateCombo.setTextWhenNothingSelected("Templates");
-    addAndMakeVisible (templateCombo);
+    addAndMakeVisible(templateCombo);
 
     buttonSetup(&newButton, "New");
     buttonSetup(&openButton, "Open");
@@ -142,10 +140,4 @@ void PyoPlugAudioProcessorEditor::buttonSetup(Button *button, String buttonText)
     button->setButtonText(buttonText);
     button->addListener(this);
     addAndMakeVisible(button);
-}
-
-void PyoPlugAudioProcessorEditor::templateComboChanged() {
-    editor->loadContent(templates[templateCombo.getSelectedId()]);
-    currentFile = String();
-
 }

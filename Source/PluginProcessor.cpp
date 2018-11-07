@@ -30,7 +30,8 @@ PyoPlugAudioProcessor::PyoPlugAudioProcessor() : parameters (*this, nullptr) {
     for (int i = 1; i <= 12; i++) {
         parameters.createAndAddParameter(String("PARAM") + String(i),
                                          String("PyoPlug parameter ") + String(i),
-                                         String(), NormalisableRange<float>(0.0f, 1.0f), 0.0f, nullptr, nullptr, true, true);
+                                         String(), NormalisableRange<float>(0.0f, 1.0f),
+                                         0.0f, nullptr, nullptr, true, true);
         parameters.addParameterListener(String("PARAM") + String(i), this);
     }
     parameters.state = ValueTree(Identifier(JucePlugin_Name));
@@ -68,8 +69,8 @@ double PyoPlugAudioProcessor::getTailLengthSeconds() const {
 }
 
 int PyoPlugAudioProcessor::getNumPrograms() {
-    return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
-                // so this should be at least 1, even if you're not really implementing programs.
+    return 1; // NB: some hosts don't cope very well if you tell them there are 0 programs,
+              // so this should be at least 1, even if you're not really implementing programs.
 }
 
 int PyoPlugAudioProcessor::getCurrentProgram() {
@@ -143,6 +144,7 @@ void PyoPlugAudioProcessor::setStateInformation (const void* data, int sizeInByt
     currentCode = String::createStringFromData(data, sizeInBytes);
 }
 
+//==============================================================================
 void PyoPlugAudioProcessor::computeCode(String code) {
     pyo.clear();
     for (int i = 1; i <= 12; i++) {

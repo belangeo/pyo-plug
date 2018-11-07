@@ -36,8 +36,6 @@ public:
     void resized() override;
     void buttonClicked(Button* button) override;
 
-    void templateComboChanged();
-
     void buttonSetup(Button *button, String textButton);
     void readFile(const File& fileToRead);
 
