@@ -8,10 +8,10 @@
               pluginIsSynth="0" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="PyoPlugAU" pluginRTASCategory="" aaxIdentifier="com.belangeo.PyoPlug"
-              pluginAAXCategory="2" jucerVersion="5.4.5" companyName="belangeo"
+              pluginAAXCategory="2" jucerVersion="5.4.7" companyName="belangeo"
               displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
               buildAUv3="0" buildStandalone="0" enableIAA="0" pluginIsMidiEffectPlugin="0"
-              cppLanguageStandard="11" pluginFormats="buildVST" companyWebsite="http://ajaxsoundstudio.com/"
+              pluginFormats="buildVST" companyWebsite="http://ajaxsoundstudio.com/"
               companyEmail="belangeo@gmail.com" pluginRTASDisableBypass="0"
               pluginRTASDisableMultiMono="0" pluginAAXDisableBypass="0" pluginAAXDisableMultiMono="0"
               pluginCharacteristicsValue="pluginWantsMidiIn">
@@ -62,8 +62,8 @@
       </MODULEPATHS>
     </XCODE_MAC>
     <LINUX_MAKE targetFolder="Builds/LinuxMakefile" vstFolder="~/Dropbox/private/VST/vstsdk2.4"
-                extraLinkerFlags="&#96;python-config --ldflags&#96;&#10;-Xlinker -export-dynamic"
-                extraCompilerFlags="-I/usr/include/python2.7 -I/usr/include/x86_64-linux-gnu/python2.7  -fno-strict-aliasing  -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-2.7.13=. -fstack-protector-strong -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv ">
+                extraLinkerFlags="&#96;python3-config --ldflags&#96;&#10;-Xlinker -export-dynamic"
+                extraCompilerFlags="-I/usr/include/python3.7m -I/usr/include/python3.7m  -Wno-unused-result -Wsign-compare -g -fdebug-prefix-map=/build/python3.7-3.7.3=. -specs=/usr/share/dpkg/no-pie-compile.specs -fstack-protector -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv -O3 -Wall">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="PyoPlug"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="PyoPlug"/>

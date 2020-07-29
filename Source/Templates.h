@@ -73,9 +73,9 @@ const char *ConvoVerb =
 const char *Resonators = 
 "input = Input([0, 1])\n"
 "\n"
-"fondamental = 20\n"
+"fundamental = 20\n"
 "spread = 1.1\n"
-"frequencies = [fondamental * pow(i, spread) for i in range(1, 25)]\n"
+"frequencies = [fundamental * pow(i, spread) for i in range(1, 25)]\n"
 "\n"
 "resonators = Waveguide(input, freq=frequencies, dur=30, mul=0.05)\n"
 "\n"
