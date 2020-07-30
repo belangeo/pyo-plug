@@ -23,15 +23,27 @@
 
 const char *initialDSP = "input = Input([0, 1])\n\ninput.out()\n";
 
+AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
+    using Parameter = AudioProcessorValueTreeState::Parameter;
+
+    std::vector<std::unique_ptr<Parameter>> parameters;
+
+    for (int i = 1; i <= 12; i++) {
+        parameters.push_back(std::make_unique<Parameter>(String("PARAM") + String(i),
+                                                         String("PyoPlug parameter ") + String(i),
+                                                         String(), NormalisableRange<float>(0.0f, 1.0f),
+                                                         0.0f, nullptr, nullptr, true, true));
+    }
+
+    return { parameters.begin(), parameters.end() };
+}
+
 //==============================================================================
-PyoPlugAudioProcessor::PyoPlugAudioProcessor() : parameters (*this, nullptr) {
+PyoPlugAudioProcessor::PyoPlugAudioProcessor()
+    : parameters (*this, nullptr, Identifier(JucePlugin_Name), createParameterLayout()) {
     currentCode = String(initialDSP);
 
     for (int i = 1; i <= 12; i++) {
-        parameters.createAndAddParameter(String("PARAM") + String(i),
-                                         String("PyoPlug parameter ") + String(i),
-                                         String(), NormalisableRange<float>(0.0f, 1.0f),
-                                         0.0f, nullptr, nullptr, true, true);
         parameters.addParameterListener(String("PARAM") + String(i), this);
     }
     parameters.state = ValueTree(Identifier(JucePlugin_Name));
@@ -109,9 +121,8 @@ void PyoPlugAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
     keyboardState.processNextMidiBuffer (midi, 0, numSamples, true);
 
     if (midi.getNumEvents() > 0) {
-        MidiMessage msg;
-        int ignore;
-        for (MidiBuffer::Iterator it(midi); it.getNextEvent(msg, ignore); ) {
+        for (const auto metadata : midi) {
+            const auto msg = metadata.getMessage();
             unsigned int status = 0, data1 = 0, data2 = 0;
             if (msg.getRawDataSize() > 0) { status = msg.getRawData()[0]; }
             if (msg.getRawDataSize() > 1) { data1 = msg.getRawData()[1]; }

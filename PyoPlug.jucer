@@ -8,13 +8,13 @@
               pluginIsSynth="0" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="PyoPlugAU" pluginRTASCategory="" aaxIdentifier="com.belangeo.PyoPlug"
-              pluginAAXCategory="2" jucerVersion="5.4.7" companyName="belangeo"
-              displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
-              buildAUv3="0" buildStandalone="0" enableIAA="0" pluginIsMidiEffectPlugin="0"
-              pluginFormats="buildVST" companyWebsite="http://ajaxsoundstudio.com/"
-              companyEmail="belangeo@gmail.com" pluginRTASDisableBypass="0"
-              pluginRTASDisableMultiMono="0" pluginAAXDisableBypass="0" pluginAAXDisableMultiMono="0"
-              pluginCharacteristicsValue="pluginWantsMidiIn">
+              pluginAAXCategory="2" companyName="belangeo" displaySplashScreen="1"
+              reportAppUsage="0" splashScreenColour="Dark" buildAUv3="0" buildStandalone="0"
+              enableIAA="0" pluginIsMidiEffectPlugin="0" pluginFormats="buildVST"
+              companyWebsite="http://ajaxsoundstudio.com/" companyEmail="belangeo@gmail.com"
+              pluginRTASDisableBypass="0" pluginRTASDisableMultiMono="0" pluginAAXDisableBypass="0"
+              pluginAAXDisableMultiMono="0" pluginCharacteristicsValue="pluginWantsMidiIn"
+              jucerFormatVersion="1">
   <MAINGROUP id="TSnFxn" name="PyoPlug">
     <GROUP id="{EAF6AB4E-0676-EBE8-20EF-891769EE7B78}" name="Source">
       <FILE id="hLVYAO" name="Templates.h" compile="0" resource="0" file="Source/Templates.h"/>
