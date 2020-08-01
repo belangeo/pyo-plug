@@ -80,7 +80,7 @@ INLINE PyThreadState * pyo_new_interpreter(float sr, int bufsize, int chnls) {
 #ifdef __linux__
         libpython_handle = dlopen("libpython3.7m.so", RTLD_LAZY | RTLD_GLOBAL);
 #elif __APPLE__
-        libpython_handle = dlopen("libpython3.7.dylib", RTLD_LAZY | RTLD_GLOBAL);
+        libpython_handle = dlopen("libpython3.7m.dylib", RTLD_LAZY | RTLD_GLOBAL);
 #endif
     }
 #endif
