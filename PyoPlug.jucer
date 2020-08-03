@@ -86,13 +86,13 @@
         <MODULEPATH id="juce_audio_utils" path="../../JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
-    <VS2017 targetFolder="Builds/VisualStudio2017" externalLibraries="python27.lib&#10;">
+    <VS2017 targetFolder="Builds/VisualStudio2017" externalLibraries="python37.lib&#10;">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" winArchitecture="Win32" libraryPath="C:\Python27\libs&#10;"
-                       headerPath="C:\Python27\include"/>
-        <CONFIGURATION isDebug="0" name="Release" winArchitecture="Win32" libraryPath="C:\Python27\libs&#10;"
-                       headerPath="C:\Python27\include" enablePluginBinaryCopyStep="1"
-                       vstBinaryLocation="C:\Program Files (x86)\Steinberg\VstPlugins"/>
+        <CONFIGURATION isDebug="1" name="Debug" libraryPath="C:\Users\Admin\AppData\Local\Programs\Python\Python37\libs"
+                       headerPath="C:\Users\Admin\AppData\Local\Programs\Python\Python37\include"/>
+        <CONFIGURATION isDebug="0" name="Release" libraryPath="C:\Users\Admin\AppData\Local\Programs\Python\Python37\libs"
+                       headerPath="C:\Users\Admin\AppData\Local\Programs\Python\Python37\include"
+                       enablePluginBinaryCopyStep="1" vstBinaryLocation="C:\Program Files (x86)\Steinberg\VstPlugins"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_video" path="../../juce"/>
