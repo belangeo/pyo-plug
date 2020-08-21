@@ -7,7 +7,7 @@ It presents a text editor to write code that can be compiled on the fly.
 
 ## Installation
 
-Python 3.7 64-bit and pyo must be installed on the system before using the plugin.
+Python 3.7 64-bit and pyo must be installed on the system before using PyoPlug.
 
 [Python 3.7 download page](https://www.python.org/downloads/release/python-379/)
 
