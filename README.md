@@ -7,16 +7,24 @@ It presents a text editor to write code that can be compiled on the fly.
 
 ## Installation
 
-Python 2.7 and pyo must be installed on the system before using the plugin.
+Python 3.7 64-bit and pyo must be installed on the system before using the plugin.
 
-[Python 2.7 download page](https://www.python.org/downloads/release/python-2715/) (must be 32-bit on Windows)
+[Python 3.7 download page](https://www.python.org/downloads/release/python-379/)
 
-[Pyo download page](http://ajaxsoundstudio.com/software/pyo/)
+To install pyo on MacOS, open a Terminal and:
+
+```
+sudo python3 -m pip install pyo
+```
+
+To install pyo on Windows, open a Command Prompt and:
+    
+```
+py -3.7 -m pip install pyo
+```
 
 Then, download the plugin from the [Release page](https://github.com/belangeo/pyo-plug/releases) 
 and save it in the local VST folder of the system.
-
-* For Windows users: because pyo is only compiled for 32-bit python, the plugin is 32-bit only on Windows.
 
 * If you use Reaper on MacOS, in order to be able to use space and return keys in the
 code editor, you need to open the Fx chain window where is your plugin (right-click
