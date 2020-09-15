@@ -31,6 +31,9 @@ code editor, you need to open the Fx chain window where is your plugin (right-cl
 on the plugin name in the mixer and choose "Show FX chain"), then right-click on the
 plugin name and select "Send all keyboard input to plug-in".
 
+.. image:: screenshot.png
+     :align: center
+
 ## Donation
 
 This project is developed by Olivier Bélanger on his free time to provide a 
