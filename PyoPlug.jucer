@@ -62,8 +62,9 @@
       </MODULEPATHS>
     </XCODE_MAC>
     <LINUX_MAKE targetFolder="Builds/LinuxMakefile" vstFolder="~/Dropbox/private/VST/vstsdk2.4"
-                extraLinkerFlags="&#96;python3-config --ldflags&#96;&#10;-Xlinker -export-dynamic"
-                extraCompilerFlags="-I/usr/include/python3.7m -I/usr/include/python3.7m  -Wno-unused-result -Wsign-compare -g -fdebug-prefix-map=/build/python3.7-3.7.3=. -specs=/usr/share/dpkg/no-pie-compile.specs -fstack-protector -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv -O3 -Wall">
+                extraLinkerFlags="-L/usr/lib/python3.9/config-3.9-x86_64-linux-gnu -L/usr/lib  -lcrypt -lpthread -ldl  -lutil -lm -lm -Xlinker -export-dynamic"
+                extraCompilerFlags="-I/usr/include/python3.9 -I/usr/include/python3.9  -Wno-unused-result -Wsign-compare -g -ffile-prefix-map=/build/python3.9-RNBry6/python3.9-3.9.2=. -specs=/usr/share/dpkg/no-pie-compile.specs -fstack-protector -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv -O3 -Wall"
+                externalLibraries="python3.9">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="PyoPlug"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="PyoPlug"/>
